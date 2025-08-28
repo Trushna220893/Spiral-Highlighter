@@ -31,15 +31,15 @@
   <div class="main">
      <div class="boxes">
         <div class="row">
-          <div id="grid" class="col1 grid">1</div>
-          <div id="grid" class="col2 grid">2</div>
-          <div id="grid" class="col3 grid">3</div>
-          <div id="grid" class="col8 grid">8</div>
-          <div id="grid" class="col9 grid">9</div>
-          <div id="grid" class="col4 grid">4</div>
-          <div id="grid" class="col7 grid">7</div>
-          <div id="grid" class="col6 grid">6</div>
-          <div id="grid" class="col5 grid">5</div>
+          <div id="grid" class="col1 grid"></div>
+          <div id="grid" class="col2 grid"></div>
+          <div id="grid" class="col3 grid"></div>
+          <div id="grid" class="col8 grid"></div>
+          <div id="grid" class="col9 grid"></div>
+          <div id="grid" class="col4 grid"></div>
+          <div id="grid" class="col7 grid"></div>
+          <div id="grid" class="col6 grid"></div>
+          <div id="grid" class="col5 grid"></div>
         </div>
      </div>
   </div>
@@ -53,7 +53,7 @@
 
 <!--scripts starts here--> 
 
-<script>
+<!-- <script>
   const boxes = Array.from(document.querySelectorAll('.grid'));
 
 // Sort boxes by their number text (1-9)
@@ -78,6 +78,68 @@ startBox.addEventListener('click', () => {
     }, delay * (order.length + i));
   });
 });
+</script> -->
+
+<script>
+  function setupHighlightAnimation() {
+    const boxes = Array.from(document.querySelectorAll('.grid'));
+
+    if (boxes.length === 0) return; // No boxes, exit
+
+    // Sort boxes by number if possible, else keep DOM order
+    const order = boxes.slice().sort((a, b) => {
+        const numA = parseInt(a.textContent.trim(), 10);
+        const numB = parseInt(b.textContent.trim(), 10);
+
+        if (!isNaN(numA) && !isNaN(numB)) {
+            return numA - numB; // both numbers → sort ascending
+        } else if (!isNaN(numA)) {
+            return -1; // a is number, b is not
+        } else if (!isNaN(numB)) {
+            return 1; // b is number, a is not
+        }
+        return 0; // neither numeric → keep original order
+    });
+
+    const delay = 500; // 0.5 sec per step
+    const totalDuration = delay * (2 * order.length - 1);
+    let running = false;
+
+    // Click on the first numeric element (or first in sorted order)
+    const startBox = order[0];
+    startBox.addEventListener('click', () => {
+        if (running) return;
+        running = true;
+
+        // Highlight in ascending order
+        order.forEach((box, i) => {
+            setTimeout(() => {
+                box.classList.add('highlight');
+            }, delay * i);
+        });
+
+        // Remove highlight in reverse order
+        order.slice().reverse().forEach((box, i) => {
+            setTimeout(() => {
+                box.classList.remove('highlight');
+            }, delay * (order.length + i));
+        });
+
+        // Unlock after animation completes
+        setTimeout(() => {
+            running = false;
+        }, totalDuration + 50);
+    });
+}
+
+// Initialize animation
+setupHighlightAnimation();
+
+// Optional: if boxes are added/removed dynamically, re-run:
+const observer = new MutationObserver(() => {
+    setupHighlightAnimation();
+});
+observer.observe(document.querySelector('.row'), { childList: true });
 </script>
 <!--scripts ends here-->
 </body>
