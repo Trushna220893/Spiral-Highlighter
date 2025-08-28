@@ -59,7 +59,9 @@
 // Sort boxes by their number text (1-9)
 const order = boxes.slice().sort((a, b) => Number(a.textContent) - Number(b.textContent));
 
-boxes[0].addEventListener('click', () => {
+const startBox = order[0];
+
+startBox.addEventListener('click', () => {
   const delay = 500;
 
   // Highlight in number order
