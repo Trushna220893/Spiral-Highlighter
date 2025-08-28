@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>demo</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"/>
+
+<meta name="format-detection" content="telephone=no">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+<link rel="icon" href="images/favicon.png" type="image/x-icon">    
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/responsive.css">
+<!-- CSS -->
+<!-- JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<!-- JS -->
+<!-- BH -->
+<!-- BH -->
+</head>
+
+<body class="up">
+<div class="wrapper"> 
+  
+  <!--Mid container-->
+  <div class="mid-container" role="main">
+  
+  <div class="main">
+     <div class="boxes">
+        <div class="row">
+          <div id="grid" class="col1 grid">1</div>
+          <div id="grid" class="col2 grid">2</div>
+          <div id="grid" class="col3 grid">3</div>
+          <div id="grid" class="col8 grid">8</div>
+          <div id="grid" class="col9 grid">9</div>
+          <div id="grid" class="col4 grid">4</div>
+          <div id="grid" class="col5 grid">5</div>
+          <div id="grid" class="col6 grid">6</div>
+          <div id="grid" class="col7 grid">7</div>
+        </div>
+     </div>
+  </div>
+  </div>
+  <!--Mid container-->
+  
+ 
+  
+  </div>
+
+
+<!--scripts starts here--> 
+
+<script>
+  const boxes = Array.from(document.querySelectorAll('.grid'));
+
+// Sort boxes by their number text (1-9)
+const order = boxes.slice().sort((a, b) => Number(a.textContent) - Number(b.textContent));
+
+boxes[0].addEventListener('click', () => {
+  const delay = 500;
+
+  // Highlight in number order
+  order.forEach((box, i) => {
+    setTimeout(() => {
+      box.classList.add('highlight');
+    }, delay * i);
+  });
+
+  // Remove highlight in reverse order
+  order.slice().reverse().forEach((box, i) => {
+    setTimeout(() => {
+      box.classList.remove('highlight');
+    }, delay * (order.length + i));
+  });
+});
+</script>
+<!--scripts ends here-->
+</body>
+</html>
